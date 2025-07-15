@@ -37,17 +37,20 @@ API REST desarrollada con Spring Boot para la gestión de tópicos de un foro, i
 ### Instalación
 
 1. **Clona el repositorio**
+
    ```bash
    git clone <url-del-repositorio>
    cd foro-hub
    ```
 
 2. **Configura la base de datos MySQL**
+
    ```sql
    CREATE DATABASE forohub_db;
    ```
 
 3. **Actualiza las credenciales en `application.properties`**
+
    ```properties
    spring.datasource.url=jdbc:mysql://localhost:3306/forohub_db
    spring.datasource.username=tu_usuario
@@ -55,6 +58,7 @@ API REST desarrollada con Spring Boot para la gestión de tópicos de un foro, i
    ```
 
 4. **Compila y ejecuta la aplicación**
+
    ```bash
    mvn clean install
    mvn spring-boot:run
@@ -70,9 +74,11 @@ API REST desarrollada con Spring Boot para la gestión de tópicos de un foro, i
 ## Endpoints de la API
 
 ### Autenticación
+
 - `POST /login` - Autenticar usuario y obtener token JWT
 
 ### Tópicos
+
 - `GET /topicos` - Listar todos los tópicos (con paginación)
 - `GET /topicos/{id}` - Obtener tópico específico
 - `POST /topicos` - Crear nuevo tópico
@@ -82,6 +88,7 @@ API REST desarrollada con Spring Boot para la gestión de tópicos de un foro, i
 ## Estructura de la Base de Datos
 
 ### Tabla: topicos
+
 - id (BIGINT, PRIMARY KEY, AUTO_INCREMENT)
 - titulo (VARCHAR, NOT NULL)
 - mensaje (TEXT, NOT NULL)
@@ -91,6 +98,7 @@ API REST desarrollada con Spring Boot para la gestión de tópicos de un foro, i
 - curso (VARCHAR, NOT NULL)
 
 ### Tabla: usuarios
+
 - id (BIGINT, PRIMARY KEY, AUTO_INCREMENT)
 - login (VARCHAR, UNIQUE, NOT NULL)
 - clave (VARCHAR, NOT NULL)
@@ -116,6 +124,7 @@ API REST desarrollada con Spring Boot para la gestión de tópicos de un foro, i
 ```
 
 **Respuesta:**
+
 ```json
 {
   "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
@@ -127,12 +136,14 @@ API REST desarrollada con Spring Boot para la gestión de tópicos de un foro, i
 **POST** `http://localhost:8080/topicos`
 
 **Headers:**
-```
+
+```http
 Authorization: Bearer {tu-token-jwt}
 Content-Type: application/json
 ```
 
 **Body:**
+
 ```json
 {
   "titulo": "Duda sobre Spring Boot",
@@ -147,11 +158,13 @@ Content-Type: application/json
 **GET** `http://localhost:8080/topicos`
 
 **Headers:**
-```
+
+```http
 Authorization: Bearer {tu-token-jwt}
 ```
 
 **Parámetros opcionales:**
+
 - `page=0` - Número de página (default: 0)
 - `size=10` - Tamaño de página (default: 10)
 - `sort=fechaCreacion,desc` - Ordenamiento
@@ -161,7 +174,8 @@ Authorization: Bearer {tu-token-jwt}
 **GET** `http://localhost:8080/topicos/1`
 
 **Headers:**
-```
+
+```http
 Authorization: Bearer {tu-token-jwt}
 ```
 
@@ -170,12 +184,14 @@ Authorization: Bearer {tu-token-jwt}
 **PUT** `http://localhost:8080/topicos/1`
 
 **Headers:**
-```
+
+```http
 Authorization: Bearer {tu-token-jwt}
 Content-Type: application/json
 ```
 
 **Body:**
+
 ```json
 {
   "id": 1,
@@ -191,13 +207,14 @@ Content-Type: application/json
 **DELETE** `http://localhost:8080/topicos/1`
 
 **Headers:**
-```
+
+```http
 Authorization: Bearer {tu-token-jwt}
 ```
 
 ## Estructura del Proyecto
 
-```
+```text
 src/
 ├── main/
 │   ├── java/com/forohub/
@@ -222,6 +239,7 @@ src/
 │   │           ├── SecurityConfigurations.java
 │   │           ├── SecurityFilter.java
 │   │           ├── TokenService.java
+│   │           ├── JwtProperties.java
 │   │           └── DatosAutenticacionUsuario.java
 │   └── resources/
 │       ├── application.properties
@@ -263,16 +281,19 @@ Puedes importar esta colección básica en Postman:
 ## Solución de Problemas
 
 ### Error de Conexión a la Base de Datos
+
 - Verifica que MySQL esté ejecutándose
 - Confirma las credenciales en `application.properties`
 - Asegúrate de que la base de datos `forohub_db` exista
 
 ### Error de Token JWT
+
 - Verifica que el token esté incluido en el header `Authorization`
 - Asegúrate de usar el formato: `Bearer {token}`
 - Confirma que el token no haya expirado
 
 ### Error de Validación
+
 - Revisa que todos los campos obligatorios estén presentes
 - Verifica el formato JSON de las peticiones
 

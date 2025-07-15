@@ -5,25 +5,20 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.forohub.domain.usuario.Usuario;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
 
-    @Value("${jwt.secret}")
-    private String secret;
-
-    @Value("${jwt.expiration}")
-    private Long expiration;
+    @Autowired
+    private JwtProperties jwtProperties;
 
     public String generarToken(Usuario usuario) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecret());
             return JWT.create()
                     .withIssuer("foro-hub")
                     .withSubject(usuario.getLogin())
@@ -36,7 +31,7 @@ public class TokenService {
 
     public String getSubject(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecret());
             return JWT.require(algorithm)
                     .withIssuer("foro-hub")
                     .build()
@@ -48,6 +43,6 @@ public class TokenService {
     }
 
     private Instant generarFechaExpiracion() {
-        return LocalDateTime.now().plusHours(24).toInstant(ZoneOffset.of("-03:00"));
+        return Instant.now().plusMillis(jwtProperties.getExpiration());
     }
 }
