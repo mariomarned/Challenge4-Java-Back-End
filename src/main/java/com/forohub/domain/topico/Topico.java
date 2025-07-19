@@ -55,4 +55,33 @@ public class Topico {
             this.curso = datos.curso();
         }
     }
+
+    // Explicit getter methods in case Lombok isn't working properly
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public StatusTopico getStatus() {
+        return status;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
 }

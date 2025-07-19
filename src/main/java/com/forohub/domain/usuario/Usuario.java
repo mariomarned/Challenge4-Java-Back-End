@@ -61,4 +61,9 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    // Explicit getter method for login field
+    public String getLogin() {
+        return login;
+    }
 }
